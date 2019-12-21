@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { GITHUB_API_URL, GITHUB_REPO, GITHUB_USER } from '../config';
+import { GITHUB_API_URL } from '../config';
 
 class GithubApi {
   http: AxiosInstance;
@@ -7,16 +7,26 @@ class GithubApi {
   constructor() {
     this.http = axios.create({
       baseURL: GITHUB_API_URL,
-      headers: {
-        Accept: 'application/vnd.github.inertia-preview+json',
-      },
     });
   }
+}
 
-  getRepoData(){
-    return this.http.get(`/repos/${GITHUB_USER}/${GITHUB_REPO}`);
+class GithubRepoApi extends GithubApi {
+  baseUrl: string;
+
+  constructor(repoName: string, userName: string) {
+    super();
+    this.baseUrl = `/repos/${userName}/${repoName}`;
+  }
+
+  getData() {
+    return this.http.get(this.baseUrl);
+  }
+
+  getCommits() {
+    return this.http.get(`${this.baseUrl}/commits`);
   }
 
 }
 
-export default GithubApi;
+export default GithubRepoApi;

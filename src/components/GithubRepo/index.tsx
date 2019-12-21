@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import GithubApi from '../../services/GithubApi';
+import GithubRepoApi from '../../services/GithubApi';
 
 
-const useGithubRepo = () => {
-  const [repoData, setRepoData] = useState<any>(null);
+const useGithubRepo = (repoName: string, userName: string) => {
+  const [ repoData, setRepoData ] = useState<any>(null);
+  const [ commits, setRepoCommits ] = useState<any>(null);
   useEffect(() => {
-    async function getProjectData() {
-      const githubApi = new GithubApi();
-      const data = await githubApi.getRepoData();
+    const githubApi = new GithubRepoApi(repoName, userName);
+
+    async function getRepoData() {
+      const { data } = await githubApi.getData();
       setRepoData(data);
     }
-    getProjectData().catch(console.error);
+
+    async function getRepoCommits() {
+      const { data } = await githubApi.getCommits();
+      setRepoCommits(data);
+    }
+
+    getRepoData().catch(console.error);
+    getRepoCommits().catch(console.error);
   }, []);
 
-  return repoData;
+  return { repoData, commits };
 };
 
-const GithubRepo: React.FC = () => {
-  const repoData = useGithubRepo();
+interface IProps {
+  repoName: string;
+  userName: string;
+}
+
+const GithubRepo: React.FC<IProps> = (props) => {
+  const { repoData, commits } = useGithubRepo(props.repoName, props.userName);
+
+  console.log(repoData, commits);
   return (
     <div />
   );

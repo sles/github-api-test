@@ -1,13 +1,15 @@
 import React from 'react';
 import './style.scss';
 import Header from '../Header';
-import GithubProject from '../GithubProject';
+import GithubRepo from '../GithubRepo';
+import { GITHUB_REPO, GITHUB_USER } from '../../config';
+
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <Header />
-      <GithubProject />
+      <GithubRepo repoName={GITHUB_REPO} userName={GITHUB_USER} />
     </div>
   );
 };
