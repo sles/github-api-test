@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import GithubRepoApi from '../../services/GithubApi';
+import GithubRepoApi, { Commit, Repo } from '../../services/GithubApi';
 
 const useGithubRepo = (repoName: string, userName: string) => {
-  const [ repoData, setRepoData ] = useState<any>(null);
-  const [ commits, setRepoCommits ] = useState<any>(null);
+  const [ repoData, setRepoData ] = useState<Repo | null>(null);
+  const [ commits, setRepoCommits ] = useState<Commit[] | []>([]);
   useEffect(() => {
     const githubApi = new GithubRepoApi(repoName, userName);
 
@@ -19,7 +19,7 @@ const useGithubRepo = (repoName: string, userName: string) => {
 
     getRepoData().catch(console.error);
     getRepoCommits().catch(console.error);
-  }, [repoName, userName]);
+  }, [ repoName, userName ]);
 
   return { repoData, commits };
 };

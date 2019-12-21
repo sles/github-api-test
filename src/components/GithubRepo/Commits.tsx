@@ -1,13 +1,14 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import Spinner from '../Spinner';
+import { Commit } from '../../services/GithubApi';
 
 interface IProps {
-  list: any[]
+  list: Commit[]
 }
 
 interface IItemProps {
-  item: any
+  item: Commit
 }
 
 const CommitItem: React.FC<IItemProps> = ({ item }) => {
@@ -28,7 +29,7 @@ const CommitItem: React.FC<IItemProps> = ({ item }) => {
 };
 
 const Commits: React.FC<IProps> = ({ list }) => {
-  if (!list) {
+  if (list.length === 0) {
     return <Spinner />;
   }
   return (

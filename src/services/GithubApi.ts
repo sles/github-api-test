@@ -1,5 +1,25 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { GITHUB_API_URL } from '../config';
+
+export interface Commit {
+  sha: string;
+  commit: {
+    message: string;
+    author: {
+      name: string;
+      date: string;
+    }
+  }
+}
+
+export interface Repo {
+  name: string;
+  language: string;
+  owner: {
+    login: string;
+  }
+  html_url: string;
+}
 
 class GithubApi {
   http: AxiosInstance;
@@ -19,11 +39,11 @@ class GithubRepoApi extends GithubApi {
     this.baseUrl = `/repos/${userName}/${repoName}`;
   }
 
-  getData() {
+  getData(): Promise<AxiosResponse<Repo>> {
     return this.http.get(this.baseUrl);
   }
 
-  getCommits() {
+  getCommits(): Promise<AxiosResponse<Commit[]>> {
     return this.http.get(`${this.baseUrl}/commits`);
   }
 
