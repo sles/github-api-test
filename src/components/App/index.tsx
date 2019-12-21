@@ -1,5 +1,4 @@
 import React from 'react';
-import './style.scss';
 import Header from '../Header';
 import GithubRepo from '../GithubRepo';
 import { GITHUB_REPO, GITHUB_USER } from '../../config';
